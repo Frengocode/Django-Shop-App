@@ -1,0 +1,81 @@
+{% load django_bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<style>
+    /* Custom Styling for Cards */
+    .card {
+        border: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        background: linear-gradient(45deg, #007bff, #4b90f7);
+    }
+
+    .product-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .order-status {
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 20px;
+    }
+
+    .status-getready { background-color: #f0ad4e; color: white; }
+    .status-shipped { background-color: #5cb85c; color: white; }
+    .status-delivered { background-color: #0275d8; color: white; }
+</style>
+
+<div class="container my-5">
+    <h1 class="text-center mb-5">Your Orders</h1>
+    
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for order in orders %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-header text-white">
+                        <h5 class="mb-0">Order by {{ order.user.username }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <p class="mb-0"><strong>Order Date:</strong> {{ order.when_created_at|date:"d M Y" }}</p>
+                            <span class="order-status status-{{ order.status|lower }}">{{ order.status }}</span>
+                        </div>
+
+
+                        <h6 class="mb-3">Products in Cart:</h6>
+                        <div class="product-list">
+                            {% for cart in order.cart.all %}
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="{{ cart.product.product_picture.url }}" alt="Product Image" class="product-image me-3">
+                                    <p class="mb-1"><strong>{{ cart.product.price }} </strong></p>
+                                    <div>
+                                        <p class="mb-1"><strong>{{ cart.product.product_title }}</strong></p>
+                                        <small class="text-muted">Added: {{ cart.when_added|date:"d M Y" }}</small>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a href="{% url 'order-detail' order.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No orders found.</p>
+        {% endfor %}
+    </div>
+</div>

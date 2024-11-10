@@ -1,0 +1,103 @@
+{% load django_bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Suren</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <form class="d-flex me-auto" method="get" action="{% url 'search-product' %}">
+                <input class="form-control me-2" type="search" name="q" placeholder="Search products..." aria-label="Search" style="width: 300px;">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav ms-auto align-items-center">
+                <!-- Cart Icon -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'get-cart-items' %}">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                    </a>
+                </li>
+                <!-- Orders Icon -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my-orders' %}">
+                        <i class="fas fa-box"></i> Orders
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link" href="{% url "creating-product" %}">
+                    <i class="fa-solid fa-plus"></i> Create Product
+                </a>
+            </li>
+                <!-- User Profile Icon -->
+                <li class="nav-item">
+                    {% if request.user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'get-current-user' %}">
+                            {% if request.user.profile_picture %}
+                                <img src="{{ request.user.profile_picture.url }}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                            {% else %}
+                                <i class="fas fa-user-circle"></i> Profile
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if product.product_picture %}
+                        <img src="{{ product.product_picture.url }}" class="card-img-top" alt="Product Image" style="height: 250px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.product_title }}</h5>
+                        <p class="card-text text-danger">
+                            <strong>{{ product.price }} ₽</strong>
+                        </p>
+                    </div>
+                    <div class="card-footer d-flex align-items-center">
+                        <a href="{% url "get-user" product.user.id %}">
+                        {% if product.user.profile_picture %}
+
+                            <img src="{{ product.user.profile_picture.url }}" class="rounded-circle me-2" alt="User Picture" style="width: 40px; height: 40px; object-fit: cover;">
+                        {% endif %}
+                    </a>
+                        <span>{{ product.user.username }}</span>
+                    </div>
+                    <a href="{% url 'get-product' product.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .navbar {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+    }
+    .card-title {
+        color: #333;
+    }
+    .card-text {
+        font-size: 1.1em;
+    }
+    .card-footer {
+        background-color: #f9f9f9;
+    }
+</style>

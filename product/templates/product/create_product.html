@@ -1,0 +1,18 @@
+{% load django_bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Create a New Product</h2>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        <!-- Use 'bootstrap_form' instead of 'bootstrap form' -->
+        {% bootstrap_form form %}
+
+        <div class="text-end mt-4">
+            <button type="submit" class="btn btn-primary">Create Product</button>
+        </div>
+    </form>
+</div>

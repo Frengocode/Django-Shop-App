@@ -1,0 +1,17 @@
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Are you sure you want to delete this product?</h2>
+    <p><strong>{{ object.product_title }}</strong> will be permanently deleted.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+<div class="container text-center">
+    <h2 class="my-4">Your Password Has Been Reset</h2>
+    <p>You have successfully reset your password. You can now log in with your new password.</p>
+    <a href="{% url 'login' %}" class="btn btn-primary">Go to Login</a>
+</div>
+{% endblock %}

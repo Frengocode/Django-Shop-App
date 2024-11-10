@@ -1,0 +1,36 @@
+{% load django_bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Search Products</h2>
+    <form method="get" class="d-flex mb-4">
+        {% csrf_token %}
+        <div class="input-group">
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                <i class="bi bi-plus-circle me-2"></i>Search
+            </button>
+        </div>
+    </form>
+
+    {% if result %}
+        <div class="row">
+            {% for product in result %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{ product.product_picture.url }}" class="card-img-top" alt="{{ product.product_title }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.product_title }}</h5>
+                            <p class="card-text">{{ product.price }} ₽</p>
+                            <a href="{% url 'get-product' product.id %}" class="btn btn-outline-primary">View Product</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No products found.</p>
+    {% endif %}
+</div>

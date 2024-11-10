@@ -1,0 +1,41 @@
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+
+<div class="container">
+    <h2 class="text-center my-4">Your Cart</h2>
+
+    {% if cart_items %}
+        <div class="list-group">
+            {% for cart_obj in cart_items %}
+                <div class="list-group-item d-flex justify-content-between align-items-center border p-3 mb-3 rounded">
+                    <div class="d-flex">
+                        <a href="{% url "get-product" cart_obj.product.id %}"><img src="{{ cart_obj.product.product_picture.url }}" class="img-thumbnail" width="120" alt="{{ cart_obj.product.product_title }}"></a>
+                        <div class="ml-3">
+                            <h5 class="mb-2">{{ cart_obj.product.product_title }}</h5>
+                            <p>Price: ₽{{ cart_obj.product.price }}</p>
+                        </div>
+                    </div>
+                    <form action="{% url 'remove-product-from-cart-item' cart_obj.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <form action="{% url 'create-order' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-lg">Create Order</button>
+            </form>
+        </div>
+
+    {% else %}
+        <div class="alert alert-info text-center" role="alert">
+            Your cart is empty.
+        </div>
+    {% endif %}
+</div>

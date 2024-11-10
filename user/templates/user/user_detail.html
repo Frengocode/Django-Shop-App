@@ -1,0 +1,81 @@
+{% load django_bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="container mt-5">
+    <!-- User Profile Section -->
+    <div class="profile-header bg-primary text-white p-4 rounded shadow-sm mb-5">
+        <div class="d-flex align-items-center">
+            <div class="position-relative me-4">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" class="rounded-circle border" width="100" height="100" alt="Profile Picture" style="object-fit: cover;">
+                {% else %}
+                    <img src="https://th.bing.com/th/id/OIP.roQHQEuNf8SdJJ7wS3RxtgHaHa?rs=1&pid=ImgDetMain" class="rounded-circle border" width="100" height="100" alt="Profile Picture" style="object-fit: cover;">
+                {% endif %}
+            </div>
+            <div>
+                <h1 class="display-5 mb-0">{{ user.username }}</h1>
+                <p class="mb-0">Member since {{ user.date_joined|date:"F Y" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Products Section -->
+    <h2 class="mb-4">Products</h2>
+    <div class="row g-4">
+        {% for product in user.products.all %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    {% if product.product_picture %}
+                        <img src="{{ product.product_picture.url }}" class="card-img-top" alt="{{ product.product_title }}" style="height: 250px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.product_title }}</h5>
+                        <p class="card-text text-primary"><strong>{{ product.price }} ₽</strong></p>
+                        <p class="card-text text-muted">{{ product.description|truncatewords:15 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
+                        <span class="text-muted">{{ product.category }}</span>
+                        <a href="{% url 'get-product' product.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">User have no products listed.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .profile-header {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: #fff;
+        text-align: left;
+        border-radius: 0.5rem;
+    }
+    .profile-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 0.5rem;
+    }
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+    .card-title {
+        color: #333;
+        font-weight: bold;
+    }
+    .card-footer {
+        font-size: 0.85rem;
+    }
+    .bi-pencil-square {
+        font-size: 1.25rem;
+    }
+</style>
+
