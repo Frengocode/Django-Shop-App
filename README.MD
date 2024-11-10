@@ -41,5 +41,5 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/yourusername/ShopApp.git
+   git clone git remote add origin https://github.com/Frengocode/Django-Shop-App.git
    cd ShopApp
