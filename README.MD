@@ -42,4 +42,16 @@
 1. Клонируйте репозиторий:
    ```bash
    git clone git remote add origin https://github.com/Frengocode/Django-Shop-App.git
-   cd ShopApp
+   python -m venv venv
+   for windows ./v + tab/s + tab/a + tab
+
+   for mack or liniux source bin/activate
+
+   pip install -r requirements.txt
+
+   python manage.py migrate
+
+   python manage.py runserver
+
+
+2. Укажите все параметры в env. 
