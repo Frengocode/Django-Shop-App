@@ -58,3 +58,9 @@ class RemoveProductFromCartView(DeleteView):
         cart_obj.delete()
         messages.success(request, "Product removed from cart successfully.")
         return redirect("get-cart-items")
+
+
+
+
+
+
