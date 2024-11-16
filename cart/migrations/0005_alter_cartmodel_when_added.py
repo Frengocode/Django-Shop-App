@@ -10,6 +10,9 @@ class Migration(migrations.Migration):
         ("cart", "0004_alter_cartmodel_when_added"),
     ]
 
+
+    
+
     operations = [
         migrations.AlterField(
             model_name="cartmodel",
